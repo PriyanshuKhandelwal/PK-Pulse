@@ -731,8 +731,8 @@ gr.ChatInterface(
     description="Ask anything about Priyanshu Khandelwal.",
     examples=[
         # ["What are your hobbies?"],
-        ['What is your contact information?'],
-        ["What is your summary?"],
+        # ['What is your contact information?'],
+        # ["What is your summary?"],
         ["What is your LinkedIn profile?"],
         # ["What is your GitHub profile?"],
         # ["What is your experience?"],
