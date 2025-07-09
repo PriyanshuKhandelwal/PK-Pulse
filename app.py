@@ -1001,6 +1001,302 @@ body::after {
     }
 }
 """
+custom_css = """
+/* Theme colors */
+:root {
+    --primary-color: #0077B5;       /* LinkedIn blue - your existing color */
+    --secondary-color: #4caf50;     /* Green accent */
+    --dark-color: #333333;          /* Dark text */
+    --light-color: #f5f5f5;         /* Light background */
+    --border-color: #e0e0e0;        /* Border color */
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);  /* Subtle shadow */
+}
+
+/* Only hide specific footer elements */
+footer a[href*="gradio"], 
+.footer a[href*="gradio"],
+a[href*="github.com/gradio-app/gradio"],
+.footer-links,
+.versions {
+    display: none !important;
+}
+
+/* Hide the "Built with Gradio" text specifically */
+footer > div:last-child, 
+div[class*="footer-links"],
+div:has(> a[href*="gradio"]) {
+    display: none !important;
+}
+
+/* Hide "Use via API" button and related elements */
+a[id*="api"], 
+a[class*="api"],
+button[id*="api"],
+button[class*="api"],
+div[id*="api"],
+div[class*="api"],
+.api-btn {
+    display: none !important;
+}
+
+/* Hide View API specifically */
+a:has(span:contains("View API")),
+button:has(span:contains("View API")),
+div:has(span:contains("View API")) {
+    display: none !important;
+}
+
+/* Ensure all API elements are hidden */
+[data-testid*="api"] {
+    display: none !important;
+}
+
+/* Body styling with reduced font size */
+body {
+    padding-bottom: 10px !important;
+    font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif !important;
+    background-color: var(--light-color) !important;
+    color: var(--dark-color) !important;
+    font-size: 14px !important; /* Reduced base font size */
+}
+
+/* Container styling */
+.gradio-container {
+    min-height: 450px !important;
+    border-radius: 10px !important;
+    box-shadow: var(--shadow) !important;
+    background-color: white !important;
+}
+
+/* ===== CRITICAL: INCREASE CHAT AREA HEIGHT ===== */
+/* Target the chat area and make it much taller */
+.gradio-chatbot {
+    height: 600px !important; /* Increased fixed height */
+    min-height: 600px !important;
+    max-height: 75vh !important; /* Or use viewport height for responsive sizing */
+}
+
+/* Make the message container scrollable and taller */
+.message-container, .messages, .chatbot, .chat-area, [class*="message-container"] {
+    height: 550px !important;
+    min-height: 550px !important;
+    overflow-y: auto !important;
+}
+
+/* Force all containers to respect the height */
+.gradio-container [class*="chatbot"] > div {
+    height: auto !important;
+    min-height: 550px !important;
+}
+
+/* Chat area styling */
+.chat-container, .message-container {
+    border-radius: 8px !important;
+    background-color: white !important;
+}
+
+/* User messages with reduced font size */
+.user-message, .message-user {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border-radius: 12px 12px 2px 12px !important;
+    padding: 8px 12px !important; /* Reduced padding */
+    font-size: 13px !important; /* Further reduced font size */
+    margin-bottom: 6px !important; /* Reduced margin */
+}
+
+/* Bot messages with reduced font size */
+.bot-message, .message-bot, .message-assistant {
+    background-color: #f0f2f5 !important;
+    color: var(--dark-color) !important;
+    border-radius: 12px 12px 12px 2px !important;
+    border-left: 3px solid var(--primary-color) !important;
+    padding: 8px 12px !important; /* Reduced padding */
+    font-size: 13px !important; /* Further reduced font size */
+    margin-bottom: 6px !important; /* Reduced margin */
+}
+
+/* Make the message spacing more compact */
+.message {
+    margin-bottom: 6px !important;
+}
+
+/* ===== HIDE CONTROL BUTTONS (Retry, Undo, Clear) ===== */
+.controls-container, 
+[class*="btn-container"],
+[id*="component-4"], 
+.retry-btn, 
+.undo-btn, 
+.clear-btn,
+button[aria-label="Retry"],
+button[aria-label="Undo"],
+button[aria-label="Clear"],
+div:has(> button[aria-label="Retry"]),
+div:has(> button[aria-label="Clear"]) {
+    display: none !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    visibility: hidden !important;
+}
+
+/* Chat input area with reduced size */
+textarea, input[type="text"] {
+    border-radius: 8px !important;
+    border: 1px solid var(--border-color) !important;
+    padding: 10px !important; /* Reduced padding */
+    transition: all 0.3s ease !important;
+    font-size: 14px !important; /* Reduced font size */
+}
+
+textarea:focus, input[type="text"]:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 2px rgba(0, 119, 181, 0.2) !important;
+    outline: none !important;
+}
+
+/* Make the submit button stand out more but smaller */
+button[data-testid="submit"] {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border-radius: 8px !important;
+    padding: 8px 14px !important; /* Reduced padding */
+    transition: all 0.2s ease !important;
+    font-weight: 500 !important;
+    box-shadow: 0 2px 5px rgba(0, 119, 181, 0.3) !important;
+    font-size: 14px !important; /* Reduced font size */
+}
+
+button[data-testid="submit"]:hover {
+    background-color: #005b8c !important; /* Darker shade on hover */
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 8px rgba(0, 119, 181, 0.4) !important;
+}
+
+/* Title styling with smaller size */
+h1, h2, h3, .title {
+    color: var(--primary-color) !important;
+    font-weight: 600 !important;
+    font-size: 18px !important; /* Reduced title size */
+}
+
+/* More compact buttons */
+button {
+    padding: 6px 12px !important;
+    font-size: 13px !important;
+}
+
+/* Enhanced example buttons styling with smaller size */
+div[id*="component-examples"] button,
+div[class*="examples"] button,
+.examples button {
+    border: 1px solid var(--primary-color) !important;
+    color: var(--primary-color) !important;
+    background-color: white !important;
+    border-radius: 6px !important;
+    margin: 4px !important; /* Reduced margin */
+    transition: all 0.2s ease !important;
+    padding: 6px 12px !important; /* Reduced padding */
+    font-size: 13px !important; /* Reduced font size */
+}
+
+div[id*="component-examples"] button:hover,
+div[class*="examples"] button:hover,
+.examples button:hover {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 2px 5px rgba(0, 119, 181, 0.3) !important;
+}
+
+/* Hide any other footer or attribution elements */
+[class*="footer-attribution"],
+[id*="footer-attribution"] {
+    display: none !important;
+}
+
+/* More compact examples section */
+div[id*="component-examples"],
+div[class*="examples"],
+.examples {
+    display: block !important;
+    visibility: visible !important;
+    margin-top: 15px !important; /* Reduced margin */
+    padding: 10px !important; /* Reduced padding */
+    border-top: 1px solid var(--border-color) !important;
+    background-color: #f9fafc !important;
+    border-radius: 8px !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px !important; /* Narrower scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1 !important;
+    border-radius: 10px !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color) !important;
+    border-radius: 10px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #005b8c !important;
+}
+
+/* Custom copyright footer with smaller font */
+body::after {
+    content: "© Priyanshu Khandelwal 2025. All rights reserved.";
+    display: block;
+    text-align: center;
+    padding: 10px 0; /* Reduced padding */
+    color: var(--dark-color);
+    font-size: 12px !important; /* Reduced font size */
+    border-top: 1px solid var(--border-color);
+    margin-top: 15px; /* Reduced margin */
+    background: linear-gradient(to right, rgba(0, 119, 181, 0.05), rgba(0, 119, 181, 0.1), rgba(0, 119, 181, 0.05));
+}
+
+/* Animation for messages */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.message {
+    animation: fadeIn 0.3s ease-out forwards !important;
+}
+
+/* Ensure proper scrolling */
+.scrollable {
+    overflow-y: auto !important;
+}
+
+/* Responsive design improvements */
+@media (max-width: 768px) {
+    .gradio-container {
+        border-radius: 0 !important;
+    }
+    
+    .examples button {
+        width: 100% !important;
+        margin: 3px 0 !important; /* Even smaller margins on mobile */
+    }
+    
+    /* Adjust chat height for mobile */
+    .gradio-chatbot {
+        height: 70vh !important; /* Use viewport height on mobile */
+    }
+    
+    /* Slightly larger font on mobile for readability */
+    .user-message, .message-user, .bot-message, .message-bot, .message-assistant {
+        font-size: 10px !important; 
+    }
+}
+"""
 
 gr.ChatInterface(
     fn=chat,
