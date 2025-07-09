@@ -1661,6 +1661,9 @@ gr.ChatInterface(
     description="Ask anything about Priyanshu Khandelwal.",
     examples=[
         ["What is your LinkedIn profile?"],
+        ["What is your GitHub profile?"],
+        ["What is your experience summary?"],
+        ["What are your skills?"],
     ],
     css=custom_css,
 ).launch(share=False)
