@@ -250,6 +250,271 @@ def chat(message, history=[], use_ollama=use_ollama, include_history=include_his
     
     return reply
 
+
+# Define custom CSS to hide unwanted elements and style the chat
+# Define custom CSS to hide unwanted elements but keep examples
+custom_css = """
+/* Hide footer elements */
+footer, .footer, footer *, .footer-links, .versions {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Hide "Use via API" button and related elements */
+[id*="api"], [class*="api"], #component-0 > div.mb-12 {
+    display: none !important;
+}
+
+/* Remove extra padding at the bottom */
+body {
+    padding-bottom: 0 !important;
+}
+
+/* Make the chat area take more vertical space */
+.gradio-container {
+    min-height: 450px !important;
+}
+
+/* Improve the chat container */
+.gr-chatbot {
+    min-height: 400px !important;
+}
+
+/* Remove Gradio branding and "Built with Gradio" */
+.gr-footer, .gr-footer-attribution {
+    display: none !important;
+}
+
+/* Hide all API-related buttons */
+button[id*="api"], a[id*="api"] {
+    display: none !important;
+}
+
+/* Make chat interface cleaner */
+.gradio-container {
+    max-width: 100% !important;
+}
+
+/* Make the submit button stand out more */
+.submit-btn {
+    background-color: #0077B5 !important;
+}
+
+/* Add a professional look and feel */
+.chatbot-header {
+    background-color: #0077B5 !important;
+    color: white !important;
+}
+
+/* Style the examples section nicely */
+.examples {
+    margin-top: 10px !important;
+    border-top: 1px solid #eaeaea !important;
+    padding-top: 15px !important;
+}
+
+/* Style example buttons */
+.examples button {
+    border-radius: 5px !important;
+    transition: all 0.2s ease !important;
+    border: 1px solid #0077B5 !important;
+    color: #0077B5 !important;
+}
+
+.examples button:hover {
+    background-color: #0077B5 !important;
+    color: white !important;
+}
+
+/* Hide only the bottom parts of the page that have API info */
+#component-0 > div:last-child:not(.examples) {
+    display: none !important;
+}
+"""
+# Define custom CSS to hide unwanted elements but keep examples
+custom_css = """
+/* Only hide specific footer elements */
+footer a[href*="gradio"], 
+.footer a[href*="gradio"],
+a[href*="github.com/gradio-app/gradio"],
+.footer-links,
+.versions {
+    display: none !important;
+}
+
+/* Hide the "Built with Gradio" text specifically */
+footer > div:last-child, 
+div[class*="footer-links"],
+div:has(> a[href*="gradio"]) {
+    display: none !important;
+}
+
+/* Hide "Use via API" button and related elements */
+a[id*="api-btn"], 
+button[id*="api-btn"],
+div[id*="api-btn"],
+div.mt-12 {
+    display: none !important;
+}
+
+/* Remove extra padding at the bottom */
+body {
+    padding-bottom: 10px !important;
+}
+
+/* Make the chat area take more vertical space */
+.gradio-container {
+    min-height: 450px !important;
+}
+
+/* Make the submit button stand out more */
+button[data-testid="submit"] {
+    background-color: #0077B5 !important;
+    color: white !important;
+}
+
+/* Enhanced example buttons styling */
+div[id*="component-examples"] button,
+div[class*="examples"] button,
+.examples button {
+    border: 1px solid #0077B5 !important;
+    color: #0077B5 !important;
+    border-radius: 4px !important;
+    margin: 5px !important;
+    transition: all 0.2s ease !important;
+}
+
+div[id*="component-examples"] button:hover,
+div[class*="examples"] button:hover,
+.examples button:hover {
+    background-color: #0077B5 !important;
+    color: white !important;
+}
+
+/* Hide any other footer or attribution elements */
+[class*="footer-attribution"],
+[id*="footer-attribution"] {
+    display: none !important;
+}
+
+/* Keep examples section visible */
+div[id*="component-examples"],
+div[class*="examples"],
+.examples {
+    display: block !important;
+    visibility: visible !important;
+    margin-top: 15px !important;
+    padding-top: 15px !important;
+    border-top: 1px solid #eaeaea !important;
+}
+"""
+# Define custom CSS to hide unwanted elements but keep examples and add custom copyright
+custom_css = """
+/* Only hide specific footer elements */
+footer a[href*="gradio"], 
+.footer a[href*="gradio"],
+a[href*="github.com/gradio-app/gradio"],
+.footer-links,
+.versions {
+    display: none !important;
+}
+
+/* Hide the "Built with Gradio" text specifically */
+footer > div:last-child, 
+div[class*="footer-links"],
+div:has(> a[href*="gradio"]) {
+    display: none !important;
+}
+
+/* Hide "Use via API" button and related elements */
+a[id*="api"], 
+a[class*="api"],
+button[id*="api"],
+button[class*="api"],
+div[id*="api"],
+div[class*="api"],
+.api-btn {
+    display: none !important;
+}
+
+/* Hide View API specifically */
+a:has(span:contains("View API")),
+button:has(span:contains("View API")),
+div:has(span:contains("View API")) {
+    display: none !important;
+}
+
+/* Ensure all API elements are hidden */
+[data-testid*="api"] {
+    display: none !important;
+}
+
+/* Remove extra padding at the bottom */
+body {
+    padding-bottom: 10px !important;
+}
+
+/* Make the chat area take more vertical space */
+.gradio-container {
+    min-height: 450px !important;
+}
+
+/* Make the submit button stand out more */
+button[data-testid="submit"] {
+    background-color: #0077B5 !important;
+    color: white !important;
+}
+
+/* Enhanced example buttons styling */
+div[id*="component-examples"] button,
+div[class*="examples"] button,
+.examples button {
+    border: 1px solid #0077B5 !important;
+    color: #0077B5 !important;
+    border-radius: 4px !important;
+    margin: 5px !important;
+    transition: all 0.2s ease !important;
+}
+
+div[id*="component-examples"] button:hover,
+div[class*="examples"] button:hover,
+.examples button:hover {
+    background-color: #0077B5 !important;
+    color: white !important;
+}
+
+/* Hide any other footer or attribution elements */
+[class*="footer-attribution"],
+[id*="footer-attribution"] {
+    display: none !important;
+}
+
+/* Keep examples section visible */
+div[id*="component-examples"],
+div[class*="examples"],
+.examples {
+    display: block !important;
+    visibility: visible !important;
+    margin-top: 15px !important;
+    padding-top: 15px !important;
+    border-top: 1px solid #eaeaea !important;
+}
+
+/* Custom copyright footer */
+body::after {
+    content: "© Priyanshu Khandelwal 2025. All rights reserved.";
+    display: block;
+    text-align: center;
+    padding: 15px 0;
+    color: #666;
+    font-size: 14px;
+    border-top: 1px solid #eaeaea;
+    margin-top: 20px;
+}
+"""
 custom_css = """
 /* Theme colors */
 :root {
@@ -472,28 +737,19 @@ body::after {
 }
 """
 
-gr.ChatInterface(
+# Create the Gradio chat interface with custom CSS
+interface = gr.ChatInterface(
     fn=chat,
     title="PK's Bot",
     description="Ask anything about Priyanshu Khandelwal.",
     examples=[
-        # ["What are your hobbies?"],
         ['What is your contact information?'],
         ["What is your summary?"],
         ["What is your LinkedIn profile?"],
-        # ["What is your GitHub profile?"],
-        # ["What is your experience?"],
-        # ["What is your education background?"],
-        # ["What are your skills?"],
-        # ["What are your interests?"]
     ],
-    theme=gr.themes.Base(
-        primary_hue="blue",
-        secondary_hue="green",
-        font="Verdana",
-    ),
-    css=custom_css,
-    
-).launch(share=False)
+    theme="compact",
+    css=custom_css,  # Add the custom CSS here
+)
 
-
+# Launch the interface
+interface.launch(share=False)
