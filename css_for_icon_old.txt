@@ -1,0 +1,195 @@
+<!-- Chat Widget Styles -->
+<style>
+  /* Chat button styling */
+  .chat-button {
+    background-color: #0077B5; /* Corrected LinkedIn blue color */
+    color: white;
+    border-radius: 50%;
+    width: 65px;
+    height: 65px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    box-shadow: 0 4px 12px rgba(0,119,181,0.3);
+    cursor: pointer;
+    z-index: 999;
+    transition: all 0.3s ease;
+    border: 3px solid white;
+  }
+  
+  .chat-button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 16px rgba(0,119,181,0.4);
+  }
+  
+  /* Chat icon */
+  .chat-icon {
+    font-size: 28px;
+  }
+  
+  /* Chat popup styling - INCREASED HEIGHT */
+  .chat-popup {
+    display: none;
+    position: fixed;
+    bottom: 100px;
+    right: 25px;
+    width: 380px;
+    height: 700px; /* Increased from 550px to 700px */
+    max-height: 80vh; /* Also use viewport height for responsiveness */
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    z-index: 1000;
+    border: 1px solid #e0e0e0;
+  }
+  
+  /* Chat header */
+  .chat-header {
+    background-color: #0077B5;
+    color: white;
+    padding: 12px 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .chat-header-title {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-pic {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #0077B5;
+  }
+  
+  /* Iframe container - INCREASED HEIGHT */
+  .chat-iframe {
+    width: 100%;
+    height: calc(100% - 50px); /* Adjust for header height */
+    border: none;
+    background-color: #f9f9f9;
+  }
+  
+  /* Close button */
+  .close-button {
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+  }
+  
+  .close-button:hover {
+    background: rgba(255,255,255,0.4);
+  }
+  
+  /* Pulse animation for the chat button */
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(0,119,181,0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(0,119,181,0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(0,119,181,0);
+    }
+  }
+  
+  .pulse {
+    animation: pulse 2s infinite;
+  }
+  
+  /* Mobile responsiveness - ADJUSTED FOR TALLER POPUP */
+  @media screen and (max-width: 768px) {
+    .chat-button {
+      width: 55px;
+      height: 55px;
+      bottom: 15px;
+      right: 15px;
+    }
+    
+    .chat-popup {
+      width: 90%;
+      height: 85vh; /* Use viewport height for mobile */
+      max-height: 700px;
+      bottom: 85px;
+      right: 5%;
+    }
+  }
+</style>
+
+<!-- Chat Button -->
+<div class="chat-button pulse" id="chatButton" onclick="toggleChat()">
+  <div class="chat-icon">💬</div> <!-- Changed to chat bubble icon -->
+</div>
+
+<!-- Chat Popup -->
+<div id="chatPopup" class="chat-popup">
+  <div class="chat-header">
+    <div class="chat-header-title">
+      <div class="profile-pic">PK</div>
+      <span>Priyanshu Khandelwal's Bot</span>
+    </div>
+    <div class="close-button" onclick="closeChat()">✕</div>
+  </div>
+  <!-- Using a specific URL with query params to control UI elements -->
+  <iframe class="chat-iframe" id="chatIframe" src="https://whiterabbit270-pk-pulse-chat.hf.space?__theme=light&__hide_footer=true"></iframe>
+</div>
+
+<!-- JavaScript for Chat Functionality -->
+<script>
+  // Track the chat state
+  let isChatOpen = false;
+  
+  // Toggle chat function - opens or closes the chat
+  function toggleChat() {
+    if (isChatOpen) {
+      closeChat();
+    } else {
+      openChat();
+    }
+    
+    // Remove pulse animation after first click
+    document.getElementById("chatButton").classList.remove("pulse");
+  }
+  
+  function openChat() {
+    document.getElementById("chatPopup").style.display = "block";
+    isChatOpen = true;
+  }
+  
+  function closeChat() {
+    document.getElementById("chatPopup").style.display = "none";
+    isChatOpen = false;
+  }
+  
+  // Preload the iframe and set up initial styles
+  document.addEventListener('DOMContentLoaded', function() {
+    // Remove pulse animation after 10 seconds if not clicked
+    setTimeout(function() {
+      document.getElementById("chatButton").classList.remove("pulse");
+    }, 10000);
+  });
+</script>
