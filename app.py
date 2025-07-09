@@ -1298,28 +1298,179 @@ body::after {
 }
 """
 
+# gr.ChatInterface(
+#     fn=chat,
+#     title="PK's Bot",
+#     description="Ask anything about Priyanshu Khandelwal.",
+#     examples=[
+#         # ["What are your hobbies?"],
+#         # ['What is your contact information?'],
+#         # ["What is your summary?"],
+#         ["What is your LinkedIn profile?"],
+#         # ["What is your GitHub profile?"],
+#         # ["What is your experience?"],
+#         # ["What is your education background?"],
+#         # ["What are your skills?"],
+#         # ["What are your interests?"]
+#     ],
+#     # theme=gr.themes.Base(
+#     #     primary_hue="blue",
+#     #     secondary_hue="green",
+#     #     font="Verdana",
+#     # ),
+#     css=custom_css,
+    
+# ).launch(share=False)
+
+custom_css = """
+/* Theme colors */
+:root {
+    --primary-color: #0077B5;       /* LinkedIn blue */
+    --secondary-color: #4caf50;     /* Green accent */
+    --dark-color: #333333;          /* Dark text */
+    --light-color: #f5f5f5;         /* Light background */
+    --border-color: #e0e0e0;        /* Border color */
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);  /* Subtle shadow */
+}
+
+/* Body styling with reduced font size */
+body {
+    font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 14px !important;
+}
+
+/* Center the container and maintain proper spacing */
+.gradio-container {
+    margin: 0 auto !important;
+    padding: 10px !important;
+    max-width: 100% !important;
+}
+
+/* COMPACT EXAMPLES SECTION - properly centered */
+div[id*="component-examples"],
+div[class*="examples"],
+.examples,
+div[data-testid="examples"] {
+    margin: 10px auto 5px auto !important;
+    padding: 5px !important;
+    border-top: 1px solid var(--border-color) !important;
+    background-color: transparent !important;
+    text-align: center !important;
+    width: 100% !important;
+}
+
+/* Make example buttons smaller and properly spaced */
+div[id*="component-examples"] button,
+div[class*="examples"] button,
+.examples button,
+div[data-testid="examples"] button {
+    border: 1px solid var(--primary-color) !important;
+    color: var(--primary-color) !important;
+    background-color: white !important;
+    border-radius: 4px !important;
+    margin: 3px !important;
+    transition: all 0.2s ease !important;
+    padding: 4px 10px !important;
+    font-size: 12px !important;
+    height: auto !important;
+    min-height: 28px !important;
+    line-height: 1.2 !important;
+    display: inline-block !important;
+}
+
+/* Examples heading - centered */
+div[id*="component-examples"] h3,
+div[class*="examples"] h3,
+.examples h3,
+div[data-testid="examples"] h3 {
+    font-size: 13px !important;
+    margin: 0 0 5px 0 !important;
+    padding: 3px 0 !important;
+    color: #666 !important;
+    text-align: center !important;
+    width: 100% !important;
+}
+
+/* Center the button container */
+div[id*="component-examples"] > div,
+div[class*="examples"] > div,
+.examples > div,
+div[data-testid="examples"] > div {
+    margin: 0 auto !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+    justify-content: center !important; /* Center buttons */
+    width: 100% !important;
+}
+
+/* Make the textbox/submit area properly aligned */
+.input-container, 
+.input-row, 
+.submit-container,
+div[data-testid="textbox"] {
+    margin: 5px auto !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+/* Format the input area */
+.input-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+}
+
+textarea, input[type="text"] {
+    border-radius: 6px !important;
+    border: 1px solid var(--border-color) !important;
+    padding: 8px 12px !important;
+    min-height: auto !important;
+    font-size: 14px !important;
+    width: 100% !important;
+}
+
+/* Make submit button match screenshot */
+button[data-testid="submit"] {
+    background-color: #FBD38D !important; /* Match your screenshot color */
+    color: #E67E22 !important;
+    font-weight: 500 !important;
+    border-radius: 6px !important;
+    padding: 8px 15px !important;
+    height: auto !important;
+    min-height: 38px !important;
+    font-size: 14px !important;
+    width: auto !important;
+    text-align: center !important;
+}
+
+/* Fix chat container */
+.gradio-chatbot {
+    margin: 0 auto !important;
+    width: 100% !important;
+}
+
+/* Hide footer */
+footer, .footer {
+    display: none !important;
+}
+
+/* Hide API elements */
+[id*="api"], [class*="api"] {
+    display: none !important;
+}
+"""
+
 gr.ChatInterface(
     fn=chat,
     title="PK's Bot",
     description="Ask anything about Priyanshu Khandelwal.",
     examples=[
-        # ["What are your hobbies?"],
-        # ['What is your contact information?'],
-        # ["What is your summary?"],
         ["What is your LinkedIn profile?"],
-        # ["What is your GitHub profile?"],
-        # ["What is your experience?"],
-        # ["What is your education background?"],
-        # ["What are your skills?"],
-        # ["What are your interests?"]
     ],
-    # theme=gr.themes.Base(
-    #     primary_hue="blue",
-    #     secondary_hue="green",
-    #     font="Verdana",
-    # ),
     css=custom_css,
-    
 ).launch(share=False)
 
 
