@@ -20,8 +20,7 @@ pushover_url = 'https://api.pushover.net/1/messages.json'
 use_ollama = False
 use_ollama_for_evaluation = False
 include_history = True
-ollama = OpenAI(base_url='http://localhost:11434/v1', api_key='ollama')
-
+ollama = OpenAI(base_url='http://localhost:11434/v1', api_key='ollama', ) 
 
 def push(message):
     print(f"Pushover message: {message}")
@@ -38,6 +37,7 @@ def push(message):
 
 
 # create two tool functions: record_user_details and record_unknown_question
+
 def record_user_details(email, name='Not Provided', phone='Not Provided', notes='Not Provided'):
     """
     Records user details and returns a confirmation message.
@@ -46,10 +46,8 @@ def record_user_details(email, name='Not Provided', phone='Not Provided', notes=
     push(f"User Details Recorded: Email: {email}, Name: {name}, Phone: {phone}, Notes: {notes}")
     return f"User details recorded for {name} with email {email}: OKAY"
 
-
 def record_unknown_question(question, use_ollama=use_ollama):
-    """
-    Records an unknown question and returns a confirmation message.
+    """ Records an unknown question and returns a confirmation message.
     """
     # Here you can implement the logic to store the unknown question in a database or file
     if use_ollama:
@@ -59,60 +57,58 @@ def record_unknown_question(question, use_ollama=use_ollama):
         push(f"Unknown question recorded: {question}")
     return f"Unknown question recorded: {question}: OKAY"
 
-
 # creating json tool for llm
 tools_dict = {
-    "tool_record_user_details_json": {
-        "name": "record_user_details",
-        "description": "Use this tool to record user details like email, name, phone, and notes, if user wants to get in touch",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string",
-                    "description": "The email address of the user"
-                },
-                "name": {
-                    "type": "string",
-                    "description": "The name of the user, if provided"
-                },
-                "phone": {
-                    "type": "string",
-                    "description": "The phone number of the user, if provided"
-                },
-                "notes": {
-                    "type": "string",
-                    "description": "Any additional notes or information about the user"
-                }
+"tool_record_user_details_json":{
+    "name" : "record_user_details",
+    "description" : "Use this tool to record user details like email, name, phone, and notes, if user wants to get in touch",
+    "parameters":{
+        "type":"object",
+        "properties":{
+            "email":{
+                "type":"string",
+                "description":"The email address of the user"
             },
-            "required": ["email"],
-            "additionalProperties": False
-        }
-    },
-    'tool_record_unknown_question_json': {
-        "name": "record_unknown_question",
-        "description": "ONLY use this tool when you definitively cannot answer a question about Priyanshu based on the provided information. Do NOT use this tool if you can provide any relevant answer, even if partial.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "question": {
-                    "type": "string",
-                    "description": "The unknown question that the user has asked"
-                }
+            "name":{
+                "type":"string",
+                "description":"The name of the user, if provided"
             },
-            "required": ["question"],
-            "additionalProperties": False
-        }
+            "phone":{
+                "type":"string",
+                "description":"The phone number of the user, if provided"
+            },
+            "notes":{
+                "type":"string",
+                "description":"Any additional notes or information about the user"
+            }
+        },
+        "required":["email"],
+        "additionalProperties":False
     }
+},
+'tool_record_unknown_question_json':{
+    "name": "record_unknown_question",
+    "description": "ONLY use this tool when you definitively cannot answer a question about Priyanshu based on the provided information. Do NOT use this tool if you can provide any relevant answer, even if partial.",
+    "parameters":{
+        "type": "object",
+        "properties": {
+            "question": {
+                "type": "string",
+                "description": "The unknown question that the user has asked"
+            }
+        },
+        "required": ["question"],
+        "additionalProperties": False
+    }
+}    
 }
 
-tools = [
-    {"type": "function", "function": tools_dict["tool_record_user_details_json"]},
-    {"type": "function", "function": tools_dict["tool_record_unknown_question_json"]}
-]
+tools = [{"type": "function", "function": tools_dict["tool_record_user_details_json"]},
+         {"type": "function", "function": tools_dict["tool_record_unknown_question_json"]}]
 
 
-# now the if else logic for the tools (behind the scenes of llm :p)
+# now the if else logic for the tools (behind the scenes of llm :p )
+import json
 def tool_call_handler(tool_calls):
     results = []
     for tool_call in tool_calls:
@@ -121,19 +117,19 @@ def tool_call_handler(tool_calls):
         print(f"Tool called: {tool_name}, Arguments: {tool_args}", flush=True)
         tool = globals().get(tool_name)
         result = tool(**tool_args) if tool else f"Tool {tool_name} not found."
-        results.append({"role": "tool", "content": json.dumps(result), "tool_call_id": tool_call.id})
+        results.append({"role":"tool", "content":json.dumps(result), "tool_call_id":tool_call.id})
     return results
 
 
 about_me_folder_path = './about_me'
 # above folder contains the about me files
 about_me_files = os.listdir(about_me_folder_path)
-# filter the files to only include pdf and docx
+# about_me_files = [file for file in about_me_files if file.endswith('.pdf') or file.endswith('.docx')]
+# above line filters the files to only include pdf and docx
 about_me_files = [file for file in about_me_files if file.endswith('.pdf') or file.endswith('.docx')]
-# join the folder path with the file name to get the full path of the file
+# above line filters the files to only include pdf and docx
 about_me_files = [os.path.join(about_me_folder_path, file) for file in about_me_files]
-
-
+# above line joins the folder path with the file name to get the full path of the file  
 def read_pdf(file_path):
     reader = PdfReader(file_path)
     text = ''
@@ -141,14 +137,12 @@ def read_pdf(file_path):
         text += page.extract_text()
     return text
 
-
 def read_docx(file_path):
     doc = Document(file_path)
     text = ''
     for para in doc.paragraphs:
         text += para.text + '\n'
     return text
-
 
 def read_about_me_files():
     about_me_text = ''
@@ -164,12 +158,22 @@ def read_about_me_files():
             about_me_text += contact_info + '\n'
     return about_me_text
 
+# def generate_response(prompt):
+#     about_me_text = read_about_me_files()
+#     response = openai.chat.completions.create(
+#         model="gpt-3.5-turbo",
+#         messages=[
+#             {"role": "system", "content": "You are a helpful assistant."},
+#             {"role": "user", "content": f"{about_me_text}\n\n{prompt}"}
+#         ]
+#     )
+#     return response.choices[0].message['content']
 
 about_me_text = read_about_me_files()
 
 name = 'Priyanshu Khandelwal '
-system_prompt = f"""You are representing {name}. {name} is a data scientist with over 8.5 years of experience. He loves learning about tech. Currently he is is learning French and focusing on fitness. 
-You are answering all the question on {name}'s behalf on {name}'s website. For your response , first add response in very short form in upper caps, then add in detail (if required).
+system_prompt = f"""You are representing  {name}. {name} is a data scientist with over 8.5 years of experience. He loves learning about tech. Currently he is is learning French and focusing on fitness. 
+You are answering all the question on {name}'s behalf on {name}'s website. Whatever is the answer, first in very short form, reply it in upper caps, then in detail.
 You know all about {name}'s career, background, education, skills and interests. You are responsible to represent {name} on 
 the interactions as faithfully as possible. You are not allowed to make up any information about {name}.You are given a summary
 seperately about {name} which you can use to answer the questions. You have to be proficient and professional and engaging, as you
@@ -187,13 +191,55 @@ IMPORTANT TOOL USAGE RULES:
 - Questions about general topics (not specific to Priyanshu) should be answered normally without using tools
 """
 
-system_prompt += f"""
-If some question you don't know the answer then share {name}'s email address to them to reachout to {name} directly.
-IF they ask for contact information, you can share the email address.
-IF they ask for whatsapp number, you can share the phone number.
-If they ask for job location preferences, you can say that {name} is open to relocate for the right opportunity.
-"""
 
+
+
+# def chat(message, history=[], use_ollama=use_ollama, include_history=include_history):
+#     if include_history:
+#         messages = [{"role":"system", "content": system_prompt},] + history[:] + [{"role": "user", "content": message}]
+#     else:
+#         messages = [{"role":"system", "content": system_prompt}, {"role": "user", "content": message}]
+#     print(f"User: {message}")
+#     print(f"Messages: {messages}", flush=True)
+#     done = False
+#     while not done:
+#         if use_ollama:
+#             print('Using Ollama model')
+#             response = ollama.chat.completions.create(model='llama3.2', messages=messages, 
+#                                                     temperature=0.05, 
+#                                                     max_tokens=1000,
+#                                                     top_p=0.9,
+#                                                     frequency_penalty=1.0,
+#                                                     presence_penalty=0.5,
+#                                                     # stop=["."],
+#                                                     tools=tools,
+#                                                     )
+#             reply = response.choices[0].message.content
+#         else:
+#             print('Using OpenAI model')
+#             response = openai.chat.completions.create(model='gpt-4o-mini', messages=messages, tools=tools,)
+#             reply = response.choices[0].message.content
+#         history.append({"role": "user", "content": message})
+
+#         finish_reasoning = response.choices[0].finish_reason
+#         print(response)
+#         print(f"Finish Reasoning: {finish_reasoning}", flush=True)
+#         if finish_reasoning == 'tool_calls':
+#             message = response.choices[0].message
+#             tool_calls = message.tool_calls
+#             results = tool_call_handler(tool_calls)
+#             messages.append(message)
+#             messages.extend(results)
+#         # if ('not sure' in (response.choices[0].message.content).lower() 
+#         # or 'DON\'T HAVE THIS INFORMATION'.lower() in (response.choices[0].message.content).lower()
+#         # or 'don\'t know this information'.lower() in (response.choices[0].message.content).lower()):
+#         #     # use tool to record the unknown question
+#         #     globals()['record_unknown_question'](response.choices[0].message.content)
+#         #     done = True
+
+#         else:
+#             done=True
+#     return reply
 
 def chat(message, history=[], use_ollama=use_ollama, include_history=include_history):
     # Convert Gradio history format to OpenAI message format
@@ -250,7 +296,9 @@ def chat(message, history=[], use_ollama=use_ollama, include_history=include_his
     
     return reply
 
-
+# use_ollama = False
+# # include_history = False
+# ollama = OpenAI(base_url='http://localhost:11434/v1', api_key='ollama', ) 
 gr.ChatInterface(
     fn=chat,
     title="PK Pulse",
@@ -268,5 +316,3 @@ gr.ChatInterface(
     ],
     theme="compact",
 ).launch(share=True)
-
-
