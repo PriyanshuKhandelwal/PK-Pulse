@@ -1,5 +1,5 @@
 ---
-[![Run Python script](https://github.com/PriyanshuKhandelwal/PK-Pulse/actions/workflows/update_space.yml/badge.svg)](https://github.com/PriyanshuKhandelwal/PK-Pulse/actions/workflows/update_space.yml)
+[![Run Python script](https://github.com/PriyanshuKhandelwal/PK-Pulse/actions/workflows/update_space.yml/badge.svg)]
 
 Title: pk-pulse-chat
 app_file: app.py
