@@ -472,6 +472,259 @@ body::after {
 }
 """
 
+custom_css = """
+/* Theme colors */
+:root {
+    --primary-color: #0077B5;       /* LinkedIn blue - your existing color */
+    --secondary-color: #4caf50;     /* Green accent */
+    --dark-color: #333333;          /* Dark text */
+    --light-color: #f5f5f5;         /* Light background */
+    --border-color: #e0e0e0;        /* Border color */
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);  /* Subtle shadow */
+}
+
+/* Only hide specific footer elements */
+footer a[href*="gradio"], 
+.footer a[href*="gradio"],
+a[href*="github.com/gradio-app/gradio"],
+.footer-links,
+.versions {
+    display: none !important;
+}
+
+/* Hide the "Built with Gradio" text specifically */
+footer > div:last-child, 
+div[class*="footer-links"],
+div:has(> a[href*="gradio"]) {
+    display: none !important;
+}
+
+/* Hide "Use via API" button and related elements */
+a[id*="api"], 
+a[class*="api"],
+button[id*="api"],
+button[class*="api"],
+div[id*="api"],
+div[class*="api"],
+.api-btn {
+    display: none !important;
+}
+
+/* Hide View API specifically */
+a:has(span:contains("View API")),
+button:has(span:contains("View API")),
+div:has(span:contains("View API")) {
+    display: none !important;
+}
+
+/* Ensure all API elements are hidden */
+[data-testid*="api"] {
+    display: none !important;
+}
+
+/* Body styling */
+body {
+    padding-bottom: 10px !important;
+    font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif !important;
+    background-color: var(--light-color) !important;
+    color: var(--dark-color) !important;
+}
+
+/* Container styling */
+.gradio-container {
+    min-height: 450px !important;
+    border-radius: 10px !important;
+    box-shadow: var(--shadow) !important;
+    background-color: white !important;
+}
+
+/* ===== CRITICAL: INCREASE CHAT AREA HEIGHT ===== */
+/* Target the chat area and make it much taller */
+.gradio-chatbot {
+    height: 500px !important; /* Fixed height */
+    min-height: 500px !important;
+    max-height: 70vh !important; /* Or use viewport height for responsive sizing */
+}
+
+/* Make the message container scrollable and taller */
+.message-container, .messages, .chatbot, .chat-area, [class*="message-container"] {
+    height: 450px !important;
+    min-height: 450px !important;
+    overflow-y: auto !important;
+}
+
+/* Force all containers to respect the height */
+.gradio-container [class*="chatbot"] > div {
+    height: auto !important;
+    min-height: 450px !important;
+}
+
+/* Chat area styling */
+.chat-container, .message-container {
+    border-radius: 8px !important;
+    background-color: white !important;
+}
+
+/* User messages */
+.user-message, .message-user {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border-radius: 12px 12px 2px 12px !important;
+    padding: 10px 14px !important;
+}
+
+/* Bot messages */
+.bot-message, .message-bot, .message-assistant {
+    background-color: #f0f2f5 !important;
+    color: var(--dark-color) !important;
+    border-radius: 12px 12px 12px 2px !important;
+    border-left: 3px solid var(--primary-color) !important;
+    padding: 10px 14px !important;
+}
+
+/* Chat input area */
+textarea, input[type="text"] {
+    border-radius: 8px !important;
+    border: 1px solid var(--border-color) !important;
+    padding: 12px !important;
+    transition: all 0.3s ease !important;
+}
+
+textarea:focus, input[type="text"]:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 2px rgba(0, 119, 181, 0.2) !important;
+    outline: none !important;
+}
+
+/* Make the submit button stand out more */
+button[data-testid="submit"] {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border-radius: 8px !important;
+    padding: 10px 16px !important;
+    transition: all 0.2s ease !important;
+    font-weight: 500 !important;
+    box-shadow: 0 2px 5px rgba(0, 119, 181, 0.3) !important;
+}
+
+button[data-testid="submit"]:hover {
+    background-color: #005b8c !important; /* Darker shade on hover */
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 8px rgba(0, 119, 181, 0.4) !important;
+}
+
+/* Title styling */
+h1, h2, h3, .title {
+    color: var(--primary-color) !important;
+    font-weight: 600 !important;
+}
+
+/* Enhanced example buttons styling */
+div[id*="component-examples"] button,
+div[class*="examples"] button,
+.examples button {
+    border: 1px solid var(--primary-color) !important;
+    color: var(--primary-color) !important;
+    background-color: white !important;
+    border-radius: 6px !important;
+    margin: 5px !important;
+    transition: all 0.2s ease !important;
+    padding: 8px 14px !important;
+}
+
+div[id*="component-examples"] button:hover,
+div[class*="examples"] button:hover,
+.examples button:hover {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 2px 5px rgba(0, 119, 181, 0.3) !important;
+}
+
+/* Hide any other footer or attribution elements */
+[class*="footer-attribution"],
+[id*="footer-attribution"] {
+    display: none !important;
+}
+
+/* Keep examples section visible with better styling */
+div[id*="component-examples"],
+div[class*="examples"],
+.examples {
+    display: block !important;
+    visibility: visible !important;
+    margin-top: 20px !important;
+    padding: 15px !important;
+    border-top: 1px solid var(--border-color) !important;
+    background-color: #f9fafc !important;
+    border-radius: 8px !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1 !important;
+    border-radius: 10px !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color) !important;
+    border-radius: 10px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #005b8c !important;
+}
+
+/* Custom copyright footer */
+body::after {
+    content: "© Priyanshu Khandelwal 2025. All rights reserved.";
+    display: block;
+    text-align: center;
+    padding: 15px 0;
+    color: var(--dark-color);
+    font-size: 14px;
+    border-top: 1px solid var(--border-color);
+    margin-top: 20px;
+    background: linear-gradient(to right, rgba(0, 119, 181, 0.05), rgba(0, 119, 181, 0.1), rgba(0, 119, 181, 0.05));
+}
+
+/* Animation for messages */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.message {
+    animation: fadeIn 0.3s ease-out forwards !important;
+}
+
+/* Ensure proper scrolling */
+.scrollable {
+    overflow-y: auto !important;
+}
+
+/* Responsive design improvements */
+@media (max-width: 768px) {
+    .gradio-container {
+        border-radius: 0 !important;
+    }
+    
+    .examples button {
+        width: 100% !important;
+        margin: 5px 0 !important;
+    }
+    
+    /* Adjust chat height for mobile */
+    .gradio-chatbot {
+        height: 60vh !important; /* Use viewport height on mobile */
+    }
+}
+"""
+
 gr.ChatInterface(
     fn=chat,
     title="PK's Bot",
@@ -487,11 +740,11 @@ gr.ChatInterface(
         # ["What are your skills?"],
         # ["What are your interests?"]
     ],
-    theme=gr.themes.Base(
-        primary_hue="blue",
-        secondary_hue="green",
-        font="Verdana",
-    ),
+    # theme=gr.themes.Base(
+    #     primary_hue="blue",
+    #     secondary_hue="green",
+    #     font="Verdana",
+    # ),
     css=custom_css,
     
 ).launch(share=False)
