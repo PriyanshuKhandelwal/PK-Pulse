@@ -1,7 +1,5 @@
 ---
-# [![Run Python script]("https://github.com/PriyanshuKhandelwal/PK-Pulse/actions/workflows/update_space.yml/badge.svg)]
-
-Title: pk-pulse-chat
+title: pk-pulse-chat
 app_file: app.py
 sdk: gradio
 sdk_version: 4.44.1
